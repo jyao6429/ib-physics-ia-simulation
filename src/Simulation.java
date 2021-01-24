@@ -2,15 +2,17 @@ import java.util.Random;
 
 public class Simulation
 {
-    private double potentialDifference, totalDistance;
+    private double potentialDifference, totalDistance, exactPotentialDifference, exactTotalDistance;
     private int ionMass, ionCharge;
 
     public Simulation(double deltaV, double distance, int mass, int charge)
     {
         // Error for potentialDifference and totalDistance with Gaussian distribution with std dev of 5%
         Random rand = new Random();
-        potentialDifference = deltaV * (1 + 0.05 * rand.nextGaussian());
-        totalDistance = distance * (1 + 0.05 * rand.nextGaussian());
+        exactPotentialDifference = deltaV;
+        exactTotalDistance = distance;
+        potentialDifference = exactPotentialDifference * (1 + 0.05 * rand.nextGaussian());
+        totalDistance = exactTotalDistance * (1 + 0.05 * rand.nextGaussian());
         ionMass = mass;
         ionCharge = charge;
     }
@@ -69,6 +71,12 @@ public class Simulation
             ion.position += ion.velocity * dT + acceleration * dT * dT / 2;
         }
         return new SimulationData(ion, potentialDifference, totalDistance);
+    }
+    public void randomize()
+    {
+        Random rand = new Random();
+        potentialDifference = exactPotentialDifference * (1 + 0.05 * rand.nextGaussian());
+        totalDistance = exactTotalDistance * (1 + 0.05 * rand.nextGaussian());
     }
 }
 
