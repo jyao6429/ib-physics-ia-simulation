@@ -67,8 +67,8 @@ public class Simulation
         {
             // Use kinematics equation to calculate the change in velocity and position
             ion.time += dT;
-            ion.velocity += acceleration * dT;
             ion.position += ion.velocity * dT + acceleration * dT * dT / 2;
+            ion.velocity += acceleration * dT;
         }
         return new SimulationData(ion, potentialDifference, totalDistance);
     }
